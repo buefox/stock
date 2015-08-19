@@ -42,12 +42,12 @@ def main():
 		for i in range(len(x_min)):
 			peroid = x_min[i][3] - x_min[i][2]
 			gap = y_min[i][3] - y_min[i][2]
-			print "\t" + str(num2date(x_min[i][0]))[:-15] + " " + str(y_min[i][0]) + " -> " + str(num2date(x_min[i][0]+peroid))[:-15] + " " + str(y_min[i][0]+gap)
+			print "\t" + str(num2date(x_min[i][2]))[:-15] + " " + str(y_min[i][2]) + " " + str(num2date(x_min[i][0]))[:-15] + " " + str(y_min[i][0]) + " " + str(num2date(x_min[i][3]))[:-15] + " " + str(y_min[i][3]) + " " + str(num2date(x_min[i][0]+peroid))[:-15] + " " + str(y_min[i][0]+gap)
 		print "method b:"
 		for i in range(len(x_max)):
 			peroid = x_max[i][3] - x_max[i][2]
 			gap = y_max[i][3] - y_max[i][2]
-			print "\t" + str(num2date(x_max[i][0]))[:-15] + " " + str(y_max[i][0]) + " -> " + str(num2date(x_max[i][0]+peroid))[:-15] + " " + str(y_max[i][0]+gap)
+			print "\t" + str(num2date(x_max[i][2]))[:-15] + " " + str(y_max[i][2]) + " " + str(num2date(x_max[i][0]))[:-15] + " " + str(y_max[i][0]) + " " + str(num2date(x_max[i][3]))[:-15] + " " + str(y_max[i][3]) + " " + str(num2date(x_max[i][0]+peroid))[:-15] + " " + str(y_max[i][0]+gap)
 
 
 		
