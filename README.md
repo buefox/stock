@@ -17,10 +17,12 @@ trend_line.py -- the core part of the codes
 	needs to be improved in the future.
 
 star.py -- the firstly-finished part of the codes
+	
 	This is a simple and naiive implementation of finding the so-called "morning star" and its counterpart "night star".
 	It is quite simple, since it is just 40 lines of codes or so.
 
 parse.py -- the main part of providing data for the front-end.
+	
 	This part includes mainly about creating the outcome of all the analysis.
 	- output
 		provides the formatted output of the stock data (ref. js)
