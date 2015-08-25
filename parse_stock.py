@@ -62,7 +62,8 @@ def fetch_data(stock_name):
 	# 		# print i , len(stock_data)
 	# 		valid_list.append(stock_name)
 	# for stock_name in valid_list:
-	start_time, end_time = get_start_end_date()
+	end_time, start_time = get_start_end_date()
+	print start_time, end_time
 	stock_data = quotes_historical_yahoo_ohlc(stock_name, start_time, end_time)
 	local_max_point = list()
 	local_min_point = list()
@@ -104,6 +105,7 @@ def main():
 	stock_name = sys.argv[1]
 	# print stock_name
 	fetch_data(stock_name)
+
 
 
 
