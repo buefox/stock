@@ -5,11 +5,13 @@ import math
 import copy
 import sys
 from matplotlib.dates import date2num, num2date, DateFormatter, WeekdayLocator, DayLocator, MONDAY
-from matplotlib.finance import quotes_historical_yahoo_ohlc, candlestick_ohlc
+from finance import quotes_historical_yahoo_ohlc, candlestick_ohlc
 from matplotlib.lines import Line2D
 # validation: 2 or more points to draw a trend line
 # spacing of points: it cant be too close or too far apart
 # angles: it can't be too steep 
+"""作法主要在README.md"""
+
 def get_line(point1, point2, start_time, end_time, color):
 	slope = float()
 	start_price = float()
@@ -25,8 +27,8 @@ def get_line(point1, point2, start_time, end_time, color):
 	# print slope
 	line =  Line2D(xdata=(start_time-1, end_time+1), ydata=(start_price, end_price), color=color, linewidth=1.0, antialiased=True)
 	return line, slope
-
-def predict_tunnel(max_points, min_points, start_time, end_time):
+ 
+def predict_tunnel(max_points, min_points, start_time, end_time): #目前沒有在使用了
 	candidate = -1
 	price = -1
 	for i in range(len(max_points)):
@@ -113,9 +115,6 @@ def predict_tunnel_2d(stock_data, local_min_point, local_max_point, start_time, 
 		candidate = -1
 	return lines, x, y
 
-
-
-
 def find_bound(stock_data):
 	local_max_point = list()
 	local_min_point = list()
@@ -137,12 +136,12 @@ def find_bound(stock_data):
 
 	return local_max_point, local_min_point
 
-def find_crit(local_max_point, local_min_point):
+def find_crit(local_max_point, local_min_point): #目前沒有在使用了
 	sorted_max = sorted(local_max_point, key = lambda data: data[4], reverse=True)
 	sorted_min = sorted(local_min_point, key = lambda data: data[0], reverse=True)
 	return [(sorted_max[0][0], sorted_max[0][4], True), (sorted_max[1][0], sorted_max[1][4], True), (sorted_min[0][0], sorted_min[0][4], False), (sorted_min[1][0], sorted_min[1][4], False)]
 
-def prediction(crit, high_slope, low_slope, end_date):
+def prediction(crit, high_slope, low_slope, end_date): #目前沒有在使用了
 	est_period = int((math.fabs(crit[0][0] - crit[1][0]) + math.fabs(crit[2][0] - crit[3][0])) / int(2) )
 	sort_crit = sorted(crit, key = lambda data: data[0], reverse=True)
 	message = ""
@@ -159,6 +158,7 @@ def str2date(date_string):
 	return tuple(int(x) for x in split_date)
 
 def main():
+	"""main 是拿來測試&&demo一些功能用的 有註解過的code大概就是以前寫過的功能所留下的痕跡"""
 	if len(sys.argv) < 4:
 		print "Usage: %s [stock_name] [start_date] [end_date]" % (sys.argv[0])
 		sys.exit()
@@ -214,13 +214,15 @@ def main():
 
 
 #------------------------------------------------------plot-------------------------------------------------------------#
+"""這個部分算是matplotlib中滿重要的 包括怎麼用日期的方式標示x軸 然後在一個視窗畫多個圖 以及將點線加入要畫的圖上面
+   主要是直接參考document上面然後再加以修改的"""	
 	mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
 	alldays = DayLocator()              # minor ticks on the days
 	weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
 	dayFormatter = DateFormatter('%d')      # e.g., 12
 	fig = plt.figure() 
-	for i in range(1, len(lines)+1):
-		ax = plt.subplot(2, len(lines)/2 +1, i)
+	for i in range(1, len(lines)+1): #當要有畫多個圖在同視窗才需要迴圈(廢話)
+		ax = plt.subplot(2, len(lines)/2 +1, i) #這句是只說 分成兩行 總共len(lines)/2 +1個圖 現在畫第i張圖
 		fig.subplots_adjust(bottom=0.2)
 		ax.xaxis.set_major_locator(mondays)
 		ax.xaxis.set_minor_locator(alldays)

@@ -2,7 +2,7 @@
 from trend_line import *
 from urllib2 import HTTPError
 from matplotlib.dates import num2date
-
+from star import *
 def output(data, start_time, end_time):
 	output = list()
 	for item in data:
@@ -26,8 +26,6 @@ def draw_save(lines, x, y, stock_data, file_name):
 	weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
 	dayFormatter = DateFormatter('%d')      # e.g., 12
 	fig = plt.figure() 
-
-
 	ax = plt.subplot(1, 1, 1)
 	fig.subplots_adjust(bottom=0.2)
 	ax.xaxis.set_major_locator(mondays)
@@ -63,7 +61,7 @@ def fetch_data(stock_name):
 	# 		valid_list.append(stock_name)
 	# for stock_name in valid_list:
 	end_time, start_time = get_start_end_date()
-	print start_time, end_time
+	# print start_time, end_time
 	stock_data = quotes_historical_yahoo_ohlc(stock_name, start_time, end_time)
 	local_max_point = list()
 	local_min_point = list()

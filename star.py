@@ -1,7 +1,7 @@
 # coding=utf-8
 from trend_line import *
 import math
-
+"""判斷晨星 夜星"""
 def is_up(data):
 	return ((data[1]) < (data[4]))
 
