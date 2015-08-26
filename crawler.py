@@ -27,7 +27,7 @@ def get_list(x):
 			encoded.append([temp[0].decode('utf-8').encode('ISO-8859-1').decode('big5').encode('utf-8'), 
 				            temp[-1].decode('utf-8').encode('ISO-8859-1').decode('big5', 'ignore').encode('utf-8')[4:]])
 			# print "------"
-			FILE.write(temp[0].decode('utf-8').encode('ISO-8859-1').decode('big5').encode('utf-8') + " " + temp[-1].decode('utf-8').encode('ISO-8859-1').decode('big5', 'ignore').encode('utf-8')[:] + '\n')
+			FILE.write(temp[0].decode('utf-8').encode('ISO-8859-1').decode('big5').encode('utf-8') + " " + temp[-1].decode('utf-8').encode('ISO-8859-1').decode('big5', 'ignore').encode('utf-8')[4:] + '\n')
 	FILE.close()
 
 def read_stock(x):

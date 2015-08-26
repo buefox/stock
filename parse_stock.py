@@ -3,6 +3,7 @@ from trend_line import *
 from urllib2 import HTTPError
 from matplotlib.dates import num2date
 from star import *
+from time import sleep
 def output(data, start_time, end_time):
 	output = list()
 	for item in data:
@@ -95,15 +96,34 @@ def fetch_data(stock_name):
 	whole_data = output(stock_data, start_time, end_time)
 	return whole_data, pointsu, pointsd
 		
+def read_stock(x):
+	FILE = open('stock'+ str(x) + '.txt', 'r')
+	temp = list()
+	code = ""
+	name = ""
+	for line in FILE:
+		# print line
+		code = line[:4] + ".TW"
+		# print code
+		name = line[6:-1]
+		# print name
+		# sleep(2)
+		temp.append([name, code])
+	FILE.close()
+	return temp	
 
 def main():
-	if len(sys.argv) < 2:
-		print "Usage: %s [stock_name]" % (sys.argv[0])
+	if len(sys.argv) < 2 or (sys.argv[1] != '1' and sys.argv[1] != '2'):
+		print "Usage: %s [stock_mode] 1:上市 2:上櫃" % (sys.argv[0])
 		sys.exit()
 
-	stock_name = sys.argv[1]
+	stock_list = read_stock(int(sys.argv[1])*2)
+	# print stock_list
 	# print stock_name
-	fetch_data(stock_name)
+	# for stock in stock_list:
+	# 	print stock[0]
+	for stock in stock_list:
+		fetch_data(stock[1])
 
 
 

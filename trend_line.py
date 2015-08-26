@@ -214,8 +214,7 @@ def main():
 
 
 #------------------------------------------------------plot-------------------------------------------------------------#
-"""這個部分算是matplotlib中滿重要的 包括怎麼用日期的方式標示x軸 然後在一個視窗畫多個圖 以及將點線加入要畫的圖上面
-   主要是直接參考document上面然後再加以修改的"""	
+	"""這個部分算是matplotlib中滿重要的 包括怎麼用日期的方式標示x軸 然後在一個視窗畫多個圖 以及將點線加入要畫的圖上面主要是直接參考document上面然後再加以修改的"""	
 	mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
 	alldays = DayLocator()              # minor ticks on the days
 	weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
