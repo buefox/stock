@@ -76,19 +76,20 @@ def fetch_data(stock_name):
 	print "%d max points, %d min points" % (len(local_max_point), len(local_min_point))
 	line_1, x_min, y_min = predict_tunnel_2u(stock_data, local_min_point, local_max_point, stock_data[0][0], stock_data[-1][0])
 	line_2, x_max, y_max = predict_tunnel_2d(stock_data, local_min_point, local_max_point, stock_data[0][0], stock_data[-1][0])
-	points = list()
+	pointsu = list()
+	pointsd = list()
 	print "method a:"
 	for i in range(len(x_min)):
 		peroid = x_min[i][3] - x_min[i][2]
 		gap = y_min[i][3] - y_min[i][2]
 		print "\t" + str(num2date(x_min[i][2]))[:-15] + " " + str(y_min[i][2]) + " " + str(num2date(x_min[i][0]))[:-15] + " " + str(y_min[i][0]) + " " + str(num2date(x_min[i][3]))[:-15] + " " + str(y_min[i][3]) + " " + str(num2date(x_min[i][0]+peroid))[:-15] + " " + str(y_min[i][0]+gap)
-		points.append([str(num2date(x_min[i][2]))[:-6], y_min[i][2]])
+		pointsu.append([str(num2date(x_min[i][2]))[:-6], str(y_min[i][2]), str(num2date(x_min[i][0]))[:-6], str(y_min[i][0]), str(num2date(x_min[i][3]))[:-6], str(y_min[i][3]), str(num2date(x_min[i][0]+peroid))[:-6], str(y_min[i][0]+gap)])
 	print "method b:"
 	for i in range(len(x_max)):
 		peroid = x_max[i][3] - x_max[i][2]
 		gap = y_max[i][3] - y_max[i][2]
 		print "\t" + str(num2date(x_max[i][2]))[:-15] + " " + str(y_max[i][2]) + " " + str(num2date(x_max[i][0]))[:-15] + " " + str(y_max[i][0]) + " " + str(num2date(x_max[i][3]))[:-15] + " " + str(y_max[i][3]) + " " + str(num2date(x_max[i][0]+peroid))[:-15] + " " + str(y_max[i][0]+gap)
-		points.append([str(num2date(x_max[i][2]))[:-6], y_max[i][2]])
+		pointsd.append([str(num2date(x_max[i][2]))[:-6], str(y_max[i][2]), str(num2date(x_max[i][0]))[:-6], str(y_max[i][0]), str(num2date(x_max[i][3]))[:-6], str(y_max[i][3]), str(num2date(x_max[i][0]+peroid))[:-6], str(y_max[i][0]+gap)])
 	draw_save(line_1, x_min, y_min, stock_data, stock_name+'1.png')
 	draw_save(line_2, x_max, y_max, stock_data, stock_name+'2.png')
 	whole_data = output(stock_data, start_time, end_time)
