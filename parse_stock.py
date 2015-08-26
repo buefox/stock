@@ -93,7 +93,7 @@ def fetch_data(stock_name):
 	draw_save(line_1, x_min, y_min, stock_data, stock_name+'1.png')
 	draw_save(line_2, x_max, y_max, stock_data, stock_name+'2.png')
 	whole_data = output(stock_data, start_time, end_time)
-	return whole_data, points
+	return whole_data, pointsu, pointsd
 		
 
 def main():
