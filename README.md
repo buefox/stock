@@ -1,7 +1,7 @@
 # stock
-## Analying stock by realizing some theories.
+Analying stock by realizing some theories.
 
-### trend_line.py -- the core part of the codes
+#### trend_line.py -- the core part of the codes
  	now I focus on these functions
 
 	- find_bound
@@ -16,12 +16,12 @@
 	purposes are. Multiple return value of these functions is one of the things that 
 	needs to be improved in the future.
 
-### star.py -- the firstly-finished part of the codes
+#### star.py -- the firstly-finished part of the codes
 	
 	This is a simple and naiive implementation of finding the so-called "morning star" and its counterpart "night star".
 	It is quite simple, since it is just 40 lines of codes or so.
 
-### parse.py -- the main part of providing data for the front-end.
+#### parse.py -- the main part of providing data for the front-end.
  	
 	This part includes mainly about creating the outcome of all the analysis.
 	- output
