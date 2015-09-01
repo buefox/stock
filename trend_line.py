@@ -4,6 +4,7 @@ import datetime
 import math
 import copy
 import sys
+import os
 from matplotlib.dates import date2num, num2date, DateFormatter, WeekdayLocator, DayLocator, MONDAY
 from finance import quotes_historical_yahoo_ohlc, candlestick_ohlc
 from matplotlib.lines import Line2D
@@ -92,7 +93,7 @@ def predict_tunnel_2d(stock_data, local_min_point, local_max_point, start_time, 
 					if local_min_point[candidate][4] > local_min_point[j][4]:
 						candidate = j
 		if candidate == -1:
-			# print "Can't fsind min in %d and %d" % (local_max_point[i][0], local_max_point[i+1][0])
+			# print "Can't find min in %d and %d" % (local_max_point[i][0], local_max_point[i+1][0])
 			continue
 		low_line, slope = get_line((local_max_point[i][0], local_max_point[i][4], False), (local_max_point[i+1][0], local_max_point[i+1][4], False), start_time, end_time, 'g')
 		period = local_max_point[i+1][0] - local_max_point[i][0]
@@ -133,7 +134,6 @@ def find_bound(stock_data):
 			local_min_point.append(stock_data[i])
 		elif stock_data[i][4] >= stock_data[i-2][4] and stock_data[i][4] >= stock_data[i-1][4] and stock_data[i][4] >= stock_data[i+1][4] and stock_data[i][4] >= stock_data[i+2][4]:
 			local_max_point.append(stock_data[i])
-
 	return local_max_point, local_min_point
 
 def find_crit(local_max_point, local_min_point): #目前沒有在使用了
