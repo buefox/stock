@@ -8,9 +8,6 @@ import os
 from matplotlib.dates import date2num, num2date, DateFormatter, WeekdayLocator, DayLocator, MONDAY
 from finance import quotes_historical_yahoo_ohlc, candlestick_ohlc
 from matplotlib.lines import Line2D
-# validation: 2 or more points to draw a trend line
-# spacing of points: it cant be too close or too far apart
-# angles: it can't be too steep 
 """作法主要在README.md"""
 
 def get_line(point1, point2, start_time, end_time, color):
