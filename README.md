@@ -8,7 +8,9 @@ Analying stock by realizing some theories.
 		this function finds out the local min and local max points in the given stock data, returning two lists containing local min and local max points.The local min/max points are selected by comparing the neighboring data.
 	- predict_tunnel2u, predict_tunnel_2d
 		These two functions are the implementation of depicting trend tunnels. 
-		predict_tunnel2u utilizes two min_points* and one max_point to predict the fourth point of the parallelogram. On the other hand, predict_tunnel_2d uses two max_points and one min_point to do the trick.
+		predict_tunnel2u utilizes two min_points* and one max_point to predict the fourth point of the parallelogram. 
+		On the other hand, predict_tunnel_2d uses two max_points and one min_point to do the trick.
+		0902: added new augment for outputing list of line object or not
 	- get_line
 		Creates line object of matplotlib with given points and color the line will be extended to the bounds of the x(time) axe.
 
