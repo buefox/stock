@@ -23,7 +23,7 @@ def get_start_end_date():
 	start = date - datetime.timedelta(days=30)
 	return (start.year, start.month, start.day), (end.year, end.month, end.day)
 
-def draw_save(lines, x, y, stock_data, file_name):
+def draw_save_all_tunnel(lines, x, y, stock_data, file_name):
 	mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
 	alldays = DayLocator()              # minor ticks on the days
 	weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
@@ -47,8 +47,9 @@ def draw_save(lines, x, y, stock_data, file_name):
 		ax.autoscale_view()
 	plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
 	plt.savefig(file_name)
+	plt.close()
 
-def draw_save2(line, x, y, stock_data, file_name):
+def draw_save_prediction(line, x, y, stock_data, file_name):
 	mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
 	alldays = DayLocator()              # minor ticks on the days
 	weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
@@ -71,7 +72,7 @@ def draw_save2(line, x, y, stock_data, file_name):
 	ax.autoscale_view()
 	plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
 	plt.savefig(file_name)
-
+	plt.close()
 
 
 
@@ -139,7 +140,7 @@ def fetch_data(stock_name):
 		stock_data = quotes_historical_yahoo_ohlc(stock_name, start, end)
 	except HTTPError:
 		print "%s not found" % (stock_name)
-		return 0, 0
+		return
 	local_max_point = list()
 	local_min_point = list()
 	x_min = list()
@@ -185,21 +186,21 @@ def fetch_data(stock_name):
 	# 					str(num2date(x_max[i][3]))[:-6], str(y_max[i][3]), 
 	# 					str(num2date(x_max[i][0]+peroid))[:-6], str(y_max[i][0]+gap)])
 
-	# draw_save(line_1, x_min, y_min, stock_data, stock_name+'1.png')
-	# draw_save(line_2, x_max, y_max, stock_data, stock_name+'2.png')
+	# draw_save_all_tunnel(line_1, x_min, y_min, stock_data, stock_name+'1.png')
+	# draw_save_all_tunnel(line_2, x_max, y_max, stock_data, stock_name+'2.png')
 	# whole_data = output(stock_data, start, end)
 	# return whole_data, pointsu, pointsd
 	# --------------------------------------------------------------------------#
 	
-	pic_path = str(num2date(stock_data[-1][0]))[:-15]
+	pic_path = str(end[0]) + '-' + str(end[1]) + '-' + str(end[2])
 	if not os.path.exists(pic_path):
 		os.makedirs(pic_path)
 	lines, x, y = recent_tunnel(x_min, y_min)
 	for i in range(len(lines)):
-		draw_save2(lines[i], x[i], y[i], stock_data, pic_path + '/' + stock_name+'_min'+str(i+1)+'.png')
-	lines, x, y = recent_tunnel(x_max, y_max)
-	for i in range(len(lines)):
-		draw_save2(lines[i], x[i], y[i], stock_data, pic_path + '/' + stock_name+'_max'+str(i+1)+'.png')
+		draw_save_prediction(lines[i], x[i], y[i], stock_data, pic_path + '/' + stock_name+'_min'+str(i+1)+'.png')
+	lines_, x_, y_ = recent_tunnel(x_max, y_max)
+	for i in range(len(lines_)):
+		draw_save_prediction(lines_[i], x_[i], y_[i], stock_data, pic_path + '/' + stock_name+'_max'+str(i+1)+'.png')
 	
 	return
 		
@@ -224,7 +225,6 @@ def main():
 	if (len(sys.argv) < 2):
 		print "Usage: %s [stock_mode] (1:上市 2:上櫃)" % (sys.argv[0])
 		sys.exit()
-
 	stock_list = read_stock(int(sys.argv[1])*2)	
 	for stock in stock_list:
 		fetch_data(stock[1])
