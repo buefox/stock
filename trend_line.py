@@ -1,7 +1,7 @@
 # coding=utf-8
 import matplotlib.pyplot as plt
 import datetime
-import math
+from math import fabs
 import copy
 import sys
 import os
@@ -39,7 +39,7 @@ def predict_tunnel(max_points, min_points, start_time, end_time): #目前沒有�
 	high_line, hslope = get_line((max_points[candidate][0], max_points[candidate][4], True), (max_points[candidate][0]+1, max_points[candidate][4]+slope, True), start_time, end_time, 'g')
 	return high_line, low_line, (max_points[i][4]+slope*(min_points[1][0] - min_points[0][0])), slope, [max_points[candidate][0], min_points[0][0], min_points[1][0]], [max_points[candidate][4], min_points[0][1], min_points[1][1]]
 
-def predict_tunnel_2u(stock_data, local_min_point, local_max_point, start_time, end_time):
+def predict_tunnel_2u(stock_data, local_min_point, local_max_point, start_time, end_time, mode):
 	candidate = -1
 	lines = list()
 	x = list()
@@ -57,26 +57,21 @@ def predict_tunnel_2u(stock_data, local_min_point, local_max_point, start_time, 
 			continue
 		low_line, slope = get_line((local_min_point[i][0], local_min_point[i][4], False), (local_min_point[i+1][0], local_min_point[i+1][4], False), start_time, end_time, 'g')
 		period = local_min_point[i+1][0] - local_min_point[i][0]
+		gap = local_min_point[i+1][4] - local_min_point[i][4]
 		est_date = local_max_point[candidate][0] + period
-		est_price = local_max_point[candidate][4] + period*slope
-		if est_date >= end_time:
-			high_line, _slope = get_line((local_max_point[candidate][0], local_max_point[candidate][4], True),(stock_data[-1][0], stock_data[-1][4], True), start_time, end_time, 'g')
-			lines.append([high_line, low_line])
-			x.append([local_max_point[candidate][0], end_time, local_min_point[i][0], local_min_point[i+1][0]])
-			y.append([local_max_point[candidate][4], stock_data[-1][4], local_min_point[i][4], local_min_point[i+1][4]])
-			candidate = -1
-			continue
-		for k in stock_data:
-			if (k[0] - est_date) >= 0 and k[4]-est_price >= 0:
-				high_line, _slope = get_line((local_max_point[candidate][0], local_max_point[candidate][4], True), (k[0], k[4], True), start_time, end_time, 'g')
-				lines.append([high_line, low_line])
-				x.append([local_max_point[candidate][0], k[0], local_min_point[i][0], local_min_point[i+1][0]])
-				y.append([local_max_point[candidate][4], k[4], local_min_point[i][4], local_min_point[i+1][4]])
-				break
-		candidate = -1
-	return lines, x, y		
+		est_price = local_max_point[candidate][4] + gap
 
-def predict_tunnel_2d(stock_data, local_min_point, local_max_point, start_time, end_time):
+		high_line, _slope = get_line((local_max_point[candidate][0], local_max_point[candidate][4], True),(stock_data[-1][0], stock_data[-1][4], True), start_time, end_time, 'g')
+		lines.append([high_line, low_line])
+		x.append([local_min_point[i][0], local_max_point[candidate][0], local_min_point[i+1][0], est_date])
+		y.append([local_min_point[i][4], local_max_point[candidate][4], local_min_point[i+1][4], est_price])
+		candidate = -1
+			
+	if mode:
+		return lines, x, y	
+	return x, y	
+
+def predict_tunnel_2d(stock_data, local_min_point, local_max_point, start_time, end_time, mode):
 	candidate = -1
 	lines = list()
 	x = list()
@@ -94,24 +89,19 @@ def predict_tunnel_2d(stock_data, local_min_point, local_max_point, start_time, 
 			continue
 		low_line, slope = get_line((local_max_point[i][0], local_max_point[i][4], False), (local_max_point[i+1][0], local_max_point[i+1][4], False), start_time, end_time, 'g')
 		period = local_max_point[i+1][0] - local_max_point[i][0]
+		gap = local_max_point[i+1][4] - local_max_point[i][4]
 		est_date = local_min_point[candidate][0] + period
-		est_price = local_min_point[candidate][4] + period*slope
-		if est_date >= end_time:
-			high_line, _slope = get_line((local_min_point[candidate][0], local_min_point[candidate][4], True),(stock_data[-1][0], stock_data[-1][4], True), start_time, end_time, 'g')
-			lines.append([high_line, low_line])
-			x.append([local_min_point[candidate][0], end_time, local_max_point[i][0], local_max_point[i+1][0]])
-			y.append([local_min_point[candidate][4], stock_data[-1][4], local_max_point[i][4], local_max_point[i+1][4]])
-			candidate = -1
-			continue
-		for k in stock_data:
-			if (k[0] - est_date) >= 0 and k[4]-est_price >= 0:
-				high_line, _slope = get_line((local_min_point[candidate][0], local_min_point[candidate][4], True), (k[0], k[4], True), start_time, end_time, 'g')
-				lines.append([high_line, low_line])
-				x.append([local_min_point[candidate][0], k[0], local_max_point[i][0], local_max_point[i+1][0]])
-				y.append([local_min_point[candidate][4], k[4], local_max_point[i][4], local_max_point[i+1][4]])
-				break
+		est_price = local_min_point[candidate][4] + gap
+
+		high_line, _slope = get_line((local_min_point[candidate][0], local_min_point[candidate][4], True),(stock_data[-1][0], stock_data[-1][4], True), start_time, end_time, 'g')
+		lines.append([high_line, low_line])
+		x.append([local_min_point[candidate][0], est_date, local_max_point[i][0], local_max_point[i+1][0]])
+		y.append([local_min_point[candidate][4], est_price, local_max_point[i][4], local_max_point[i+1][4]])
 		candidate = -1
-	return lines, x, y
+		
+	if mode:	
+		return lines, x, y
+	return x, y
 
 def find_bound(stock_data):
 	local_max_point = list()
