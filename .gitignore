@@ -1,0 +1,25 @@
+########################
+# OS-specific temporary backup files
+.DS_Store
+
+########################
+# Output files/directories
+.txt
+*-*-*/
+
+########################
+# Compiled source
+.py[ocd]
+
+
+
+# OS generated files #
+######################
+.directory
+.gdb_history
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+
